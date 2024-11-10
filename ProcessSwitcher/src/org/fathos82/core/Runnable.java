@@ -1,4 +1,7 @@
 package org.fathos82.core;
 
-public interface UpadtableInterface {
+public interface Runnable {
+
+    void run();
+
 }

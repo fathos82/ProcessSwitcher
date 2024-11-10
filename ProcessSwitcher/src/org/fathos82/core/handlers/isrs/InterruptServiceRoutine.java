@@ -1,15 +1,16 @@
-package org.fathos82.core.handlers;
+package org.fathos82.core.handlers.isrs;
 
+import org.fathos82.core.handlers.IrqTypes;
 import org.fathos82.core.kernel.Kernel;
 
-public abstract class InterruptServiceRoutine<T extends Irq> {
+public abstract class InterruptServiceRoutine {
     public final Kernel kernel;
 
-    protected InterruptServiceRoutine(Kernel kernel) {
+    public InterruptServiceRoutine(Kernel kernel) {
         this.kernel = kernel;
     }
 
 
-    protected abstract void handle(T irq);
-    abstract Class<T> getIrqType();
+    public abstract void handle();
+    public abstract IrqTypes getIrqType();
 }

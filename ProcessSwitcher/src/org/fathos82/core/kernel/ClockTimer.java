@@ -1,4 +1,4 @@
-package org.fathos82.core;
+package org.fathos82.core.kernel;
 
 public class ClockTimer {
     private long time;

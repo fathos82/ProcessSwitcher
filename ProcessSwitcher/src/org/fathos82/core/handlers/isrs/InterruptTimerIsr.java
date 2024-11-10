@@ -1,29 +1,30 @@
 package org.fathos82.core.handlers.isrs;
 
-import org.fathos82.core.handlers.InterruptServiceRoutine;
+import org.fathos82.core.handlers.IrqTypes;
 import org.fathos82.core.kernel.Kernel;
 import org.fathos82.core.process.Process;
 
-public class InterruptTimerIsr extends InterruptServiceRoutine<InterruptTimerIrq> {
-    protected InterruptTimerIsr(Kernel kernel) {
+import static org.fathos82.core.process.ProcessStates.READY;
+
+public class InterruptTimerIsr extends InterruptServiceRoutine {
+    public InterruptTimerIsr(Kernel kernel) {
         super(kernel);
     }
 
     @Override
-    void handle(InterruptTimerIrq irq) {
+    public void handle() {
         long elapsedTime = kernel.clockTimer.pulse();
         kernel.updateCurrentProcessTime(elapsedTime);
         Process currentProcess = kernel.getCurrentProcess();
-        System.out.println(currentProcess.getCpuTime() % Kernel.QUANTUM);
-        if (currentProcess.getCpuTime() % Kernel.QUANTUM == 0){
-            kernel.switchContext();
+        if (currentProcess.getProcessingTime() % Kernel.QUANTUM == 0){
+            kernel.switchContext(READY);
         }
     }
 
 
     @Override
-    Class<InterruptTimerIrq> getIrqType() {
-        return InterruptTimerIrq.class;
+    public IrqTypes getIrqType() {
+        return IrqTypes.INTERRUPT_TIMER;
     }
 
 
